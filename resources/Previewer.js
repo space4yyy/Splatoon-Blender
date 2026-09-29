@@ -159,7 +159,6 @@ async function material(textures, path, material, name = '', color=0xe87d0d99, m
         }
         suffix = suffix.split('.')[0]
 
-        console.log(suffix)
         switch (suffix)
         {
             case 'Alb':
@@ -209,7 +208,6 @@ async function material(textures, path, material, name = '', color=0xe87d0d99, m
         material.roughness = 0.3
     }
 
-    console.log(material)
     return material
 }
 function asyncCollada(modelPath)
@@ -232,9 +230,6 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
     const isVariation = name.includes('_ShareTex_')
     const isCustom = name.includes('_Cstm')
 
-    console.log('LOAD ' + name)
-    console.log('is a variation: '+isVariation)
-
     var colladaLoader = new ColladaLoader();
     var modelPath = path+name+".dae"
 
@@ -251,7 +246,6 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
             modelPath = path+name.slice(0, -12)+"00.dae"
         }    
 
-        console.log('Base model base: '+modelPath)
     }
     else
     {
@@ -264,13 +258,11 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
             modelPath = path+name+"_00"+".dae"
         }    
     }
-    console.log(modelPath)
-
     return new Promise(async (resolve) =>
     {    
         colladaLoader.load(modelPath, async (collada) =>
         {
-            if(collada == null || collada.scene == null){resolve([]); console.log("Missing .dae file")}
+            if(collada == null || collada.scene == null){resolve([]); return}
             const model = collada.scene;
     
     
@@ -317,12 +309,8 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
 
                     if(usedMaterials.includes(materialName)){continue}
 
-                    console.log('Material: '+materialName)
-
                     // let isMaterialVariation = materialName.includes(variationIndex) && isVariation
 
-
-                    console.log('Textures: ', textures)
                     let objectTextures = []
                     for(var t of textures)
                     {
@@ -343,7 +331,6 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
                         t = t.replace('_BGOBJ', '');
                         t = t.replace('_F', '')
                         if(t == materialName){ objectTextures.push(t); continue }
-                        console.log(t)
                         for(var w of t.split('_'))
                         {
                             if(w == materialName){ objectTextures.push(a); continue }
@@ -383,10 +370,6 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
                         texPath = startPath+'/resources/'+window.directory+name.slice(0, -7)+'/'
                     }
 
-                    console.log(texPath)
-                    console.log(path)
-                    console.log(objectTextures)
-
                     child.material = await material(objectTextures, texPath, child.material, name, 0x000000, materialName, path)
                     usedMaterials.push(materialName)
                 }
@@ -399,7 +382,7 @@ async function loadModel(name, scene, camera, adjustFactor = 1)
             
             i=0
             var height = 0
-            for(var a of allHeight){ if(a == Infinity || a == -Infinity){continue}console.log(a); height+=a; i++ }
+            for(var a of allHeight){ if(a == Infinity || a == -Infinity){continue}height+=a; i++ }
             height/=i
 
             scene.add(center)

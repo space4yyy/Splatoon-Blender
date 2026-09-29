@@ -22,6 +22,34 @@
             font-display: swap;
         }
 
+        @font-face {
+            font-family: "Splatoon3UI";
+            src: url("./resources/fonts/BlitzMain.otf") format("opentype");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Splatoon3UI";
+            src: url("./BlitzBold.otf") format("opentype");
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Splatoon3JapaneseFallback";
+            src: url("./resources/fonts/FOT-KurokaneStd-EB.otf") format("opentype");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Splatoon3JapaneseFallback";
+            src: url("./resources/fonts/FOT-RowdyStd-EB.otf") format("opentype");
+            font-weight: 700;
+            font-display: swap;
+        }
+
         #resource-language-control {
             position: absolute;
             top: 18px;
@@ -78,6 +106,119 @@
             text-align: center;
         }
 
+        #resource-quick-links {
+            position: absolute;
+            top: 340px;
+            left: 50%;
+            display: flex;
+            gap: 12px;
+            width: min(calc(100% - 40px), 960px);
+            height: 40px;
+            margin: 0;
+            transform: translateX(-50%);
+        }
+
+        #resource-quick-links > button {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 40px;
+            margin: 0;
+            padding: 0;
+            font-size: clamp(14px, 2vw, 20px);
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        #list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+            gap: 12px 16px;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 12px;
+        }
+
+        #list > div {
+            display: flex !important;
+            align-items: center;
+            gap: 12px;
+            width: auto !important;
+            max-width: none !important;
+            min-width: 0;
+            height: 112px;
+            min-height: 112px;
+            max-height: 112px;
+            box-sizing: border-box;
+            margin: 0 !important;
+            padding: 8px;
+            overflow: hidden;
+        }
+
+        #list > div > canvas,
+        #list > div > img {
+            flex: 0 0 85px;
+            width: 85px !important;
+            height: 85px !important;
+            object-fit: contain;
+        }
+
+        #list > div > div {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: auto !important;
+            min-width: 0;
+            margin: 0 !important;
+            line-break: normal !important;
+            overflow: hidden;
+        }
+
+        #list .resource-card-title {
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+
+        #list .resource-card-id {
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        #list > div > div > br {
+            display: none;
+        }
+
+        #list > div > .download-model {
+            flex: 0 0 82px;
+            width: 82px;
+            height: 82px;
+            margin: 0 !important;
+        }
+
+        @media (max-width: 680px) {
+            #resource-quick-links {
+                top: auto;
+                bottom: 16px;
+                flex-direction: column;
+                width: calc(100% - 32px);
+                height: auto;
+                gap: 8px;
+            }
+
+            #resource-quick-links > button {
+                flex: 0 0 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+
         @media (max-width: 600px) {
             #resource-language-control {
                 top: 8px;
@@ -107,6 +248,7 @@
             #next-section {
                 right: 8px;
             }
+
         }
 
         html[lang^="zh"] body,
@@ -116,6 +258,24 @@
 
         html[lang^="zh"] #resource-name {
             font-family: "Splat-Bold", "ResourceChinese", sans-serif !important;
+        }
+
+        html[lang^="en"] body,
+        html[lang^="en"] body :is(button, select, p, span, h2, h3) {
+            font-family: "Splatoon3UI", Barlow, sans-serif;
+        }
+
+        html[lang^="ja"] body,
+        html[lang^="ja"] body :is(button, select, p, span, h2, h3) {
+            font-family: "Splatoon3UI", "Splatoon3JapaneseFallback", sans-serif;
+        }
+
+        html[lang^="en"] #resource-name {
+            font-family: "Splatoon3UI", sans-serif !important;
+        }
+
+        html[lang^="ja"] #resource-name {
+            font-family: "Splatoon3UI", "Splatoon3JapaneseFallback", sans-serif !important;
         }
     </style>
 
@@ -186,10 +346,10 @@
             </button>
         </div>
 
-        <div style="position: absolute; top: 340px; height: 40px; width: 500px; margin-left: 20px; display: flex;">
-            <button id="addon-button" onclick="window.open('./', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
-            <button id="documentation-button" onclick="window.open('./documentation', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc &amp; Tuto</button>
-            <button id="ink-colors-button" onclick="window.open('./ink-colors', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
+        <div id="resource-quick-links">
+            <button id="addon-button" onclick="window.open('./', '_self')" style="background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
+            <button id="documentation-button" onclick="window.open('./documentation', '_self')" style="background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc &amp; Tuto</button>
+            <button id="ink-colors-button" onclick="window.open('./ink-colors', '_self')" style="background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
         </div>
 
         <script>
@@ -325,7 +485,7 @@
             {
                 document.getElementById('list-heavy').style.display = 'none'
             }
-            list.style.display = 'block'
+            list.style.display = window.isBig ? 'block' : 'grid'
 
             list.innerHTML = ''
 
@@ -464,7 +624,6 @@
                         var resp2 = await fetch(startImagePath+rawN2+'.png');
                         if(!(await new Response(await resp2.arrayBuffer()).text()).startsWith('<!DOCTYPE html>'))
                         {
-                            console.log(startImagePath+rawN2+'.png')
                             element.childNodes[3].src = startImagePath+rawN2+'.png'
                             element.childNodes[3].style.display = 'block'
                             return
@@ -574,13 +733,11 @@
 
                 textures.forEach(m =>
                 {
-                    console.log({path: 'resources/'+window.directory+name+'/'+m+'.png', name:m+'.png'})
                     list.push({path: 'resources/'+window.directory+name+'/'+m+'.png', name:m+'.png'});
                 })
                 list.push({path: 'resources/'+window.directory+name+'/'+name+'.dae', name:name+'.dae'});
 
                 await z.fecth2zip(list, '');
-                console.log("end")
                 z.makeZip()
             })
 
@@ -616,9 +773,9 @@
             <canvas mode-name="Fig_PaintBrush00_Cstm04" width="85px" height="85px" style="cursor: move;"></canvas>
             <img loading="lazy" width="85px" height="85px" style="cursor: move;">
             <div style="margin-top: 10px;margin-left: 10px; line-break: anywhere; width: 110px;">
-                <span style="font-size: large; cursor: pointer;" class="clickable-text">Loading...</span>
+                <span style="font-size: large; cursor: pointer;" class="clickable-text resource-card-title">Loading...</span>
                 <br>
-                <span style="color: #a8a8a850; font-size: medium;"></span>
+                <span class="resource-card-id" style="color: #a8a8a850; font-size: medium;"></span>
             </div>
             <button class="download-model">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="65px" height="65px" viewBox="0 0 40 40" xml:space="preserve">
@@ -674,8 +831,6 @@
 
         window.selectFull = async function(element, name)
         {
-            console.log(element, name)
-
             scene.scene.children = []
             const materials = await window.loadModel(name, scene.scene, scene.camera, 1)
 
