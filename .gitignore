@@ -3,3 +3,5 @@ ignored
 ignored/*
 resources/Map
 resources/Map Image
+node_modules/
+.DS_Store
