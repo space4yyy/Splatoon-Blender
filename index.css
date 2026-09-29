@@ -816,6 +816,27 @@ input[type=range]::-moz-range-thumb
     justify-content: center;
     min-width: 0;
 }
+.tee-preview-instructions
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    width: fit-content;
+    height: 30px;
+    margin: 0 0 12px;
+    color: #ffffff70;
+    font-size: 12px;
+    line-height: 1.15;
+    text-align: left;
+    pointer-events: none;
+}
+.tee-preview-instructions span
+{
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
 @media (max-width: 1100px)
 {
     .home-feature-card:not(.home-feature-card-pose):not(.home-feature-card-ink)

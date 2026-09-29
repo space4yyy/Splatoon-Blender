@@ -29,7 +29,7 @@ const scene = new THREE.Scene();
 
 // Create Camera
 const camera = new THREE.PerspectiveCamera(90, window.character_canvas.height / window.character_canvas.height);
-camera.position.set(0, 0, 4);
+camera.position.set(0, 0, 4.5);
 
 // Create Light
 const lightLeft = new THREE.DirectionalLight(0xFFFFFF, 3);
