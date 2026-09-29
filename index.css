@@ -816,6 +816,27 @@ input[type=range]::-moz-range-thumb
     justify-content: center;
     min-width: 0;
 }
+.home-feature-preview #canvas-box
+{
+    position: relative;
+    flex: 0 1 300px;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: #333333;
+    cursor: move;
+}
+.home-feature-preview #character_canvas
+{
+    position: absolute;
+    top: -244px;
+    left: -340px;
+    width: 900px;
+    height: 900px;
+    max-width: none;
+    pointer-events: none;
+}
 .community-section
 {
     display: grid;
