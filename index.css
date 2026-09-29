@@ -816,6 +816,207 @@ input[type=range]::-moz-range-thumb
     justify-content: center;
     min-width: 0;
 }
+.community-section
+{
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr) minmax(280px, 350px);
+    grid-template-areas: "splash copy widget";
+    align-items: center;
+    gap: clamp(16px, 2vw, 32px);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-top: 30px;
+    padding: clamp(20px, 3vw, 40px);
+    background-color: #111;
+}
+.community-splash
+{
+    position: relative;
+    grid-area: splash;
+    width: 100%;
+    max-width: 500px;
+    min-width: 0;
+    aspect-ratio: 1;
+    margin-inline: auto;
+}
+#discord_canvas
+{
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+#discord_canvas_box
+{
+    position: absolute;
+    inset: 15%;
+    z-index: 1;
+    cursor: pointer;
+}
+.community-copy
+{
+    grid-area: copy;
+    min-width: 0;
+    text-align: center;
+}
+.community-copy #extrude-title
+{
+    margin: 0 0 20px;
+    color: #dadada;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+}
+.community-copy p
+{
+    margin: 0;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+.community-copy .discord
+{
+    display: block;
+    margin: 32px auto 0;
+    padding: 16px 36px;
+    color: #dadada;
+    background: linear-gradient(45deg, rgb(86, 99, 240), rgb(36, 49, 190));
+    font-weight: 700;
+}
+.community-widget
+{
+    grid-area: widget;
+    width: 100%;
+    min-width: 0;
+}
+.community-widget iframe
+{
+    display: block;
+    width: min(100%, 350px);
+    height: 500px;
+    margin-inline: auto;
+}
+.showcase-grid
+{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 32px);
+    box-sizing: border-box;
+    width: min(calc(100% - 48px), 1600px);
+    margin: 30px auto 0;
+}
+.showcase-card
+{
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 300px;
+    border-radius: 30px;
+    background-color: #111;
+}
+.tee-maker-card
+{
+    display: flex;
+    justify-content: center;
+}
+.tee-maker-content,
+.resources-content
+{
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: clamp(16px, 3vw, 50px);
+    text-align: center;
+}
+.tee-maker-content
+{
+    max-width: 700px;
+}
+.tee-maker-content #extrude-title-G,
+.resources-content #extrude-title-green
+{
+    margin: 0 0 20px;
+    color: #dadada;
+    font-size: clamp(2.25rem, 6vw, 6.25rem);
+    font-weight: 900;
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+}
+.showcase-description
+{
+    display: block;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+#tee_customizer
+{
+    position: relative;
+    display: block;
+    width: min(1400px, 233.333%);
+    height: auto;
+    margin: -58.333% 0 -58.333% -58.333%;
+    pointer-events: none;
+}
+.tee-control-panel
+{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 0;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #333;
+}
+.tee-control-panel > div
+{
+    min-width: 0;
+}
+.tee-options
+{
+    flex: 0 1 235px;
+}
+.tee-logo-previews
+{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tee-logo-previews img
+{
+    box-sizing: border-box;
+    max-width: 100%;
+    object-fit: contain;
+}
+.tee-download-actions
+{
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 0;
+    margin-left: auto;
+}
+#resource-pub
+{
+    display: block;
+    box-sizing: border-box;
+    max-width: 100%;
+    height: auto;
+}
+.resources-content #resources-button
+{
+    display: block;
+    max-width: 100%;
+    margin: 36px auto 0;
+    padding-inline: clamp(16px, 3vw, 30px);
+    font-size: clamp(20px, 3vw, 30px);
+}
 .tee-preview-instructions
 {
     display: flex;
@@ -839,6 +1040,30 @@ input[type=range]::-moz-range-thumb
 }
 @media (max-width: 1100px)
 {
+    .community-section
+    {
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        grid-template-areas:
+            "splash copy"
+            "widget widget";
+    }
+    .community-splash
+    {
+        max-width: 400px;
+    }
+    .community-widget iframe
+    {
+        margin-top: 12px;
+    }
+    .showcase-grid
+    {
+        grid-template-columns: minmax(0, 1fr);
+        width: calc(100% - 48px);
+    }
+    .showcase-card
+    {
+        min-height: 0;
+    }
     .home-feature-card:not(.home-feature-card-pose):not(.home-feature-card-ink)
     {
         grid-template-columns: minmax(0, 1fr);
@@ -851,6 +1076,99 @@ input[type=range]::-moz-range-thumb
 }
 @media (max-width: 700px)
 {
+    .community-section
+    {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "splash"
+            "copy"
+            "widget";
+        gap: 20px;
+        padding: 24px 16px;
+    }
+    .community-splash
+    {
+        max-width: 350px;
+    }
+    .community-copy #extrude-title
+    {
+        font-size: clamp(2rem, 9vw, 3rem);
+    }
+    .community-copy .discord
+    {
+        margin-top: 24px;
+    }
+    .community-widget iframe
+    {
+        height: min(500px, 70vh);
+        min-height: 400px;
+        margin-top: 0;
+    }
+    .showcase-grid
+    {
+        width: calc(100% - 24px);
+        gap: 16px;
+        margin-top: 20px;
+    }
+    .showcase-card
+    {
+        border-radius: 20px;
+    }
+    .tee-maker-content,
+    .resources-content
+    {
+        padding: 16px;
+    }
+    .tee-maker-content #extrude-title-G,
+    .resources-content #extrude-title-green
+    {
+        font-size: clamp(2rem, 9vw, 3.5rem);
+    }
+    .tee-control-panel
+    {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px;
+    }
+    .tee-options
+    {
+        flex: 1 1 100%;
+    }
+    .tee-options > div
+    {
+        max-width: 100%;
+    }
+    .tee-options span
+    {
+        min-width: 92px !important;
+    }
+    #tee-image-size input[type="range"]
+    {
+        width: 120px;
+        max-width: 100%;
+    }
+    .tee-logo-previews
+    {
+        flex: 1 1 100%;
+    }
+    .tee-download-actions
+    {
+        flex: 1 1 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 0;
+    }
+    .tee-download-actions button
+    {
+        flex: 1 1 130px;
+        margin-bottom: 0 !important;
+        text-align: center !important;
+    }
+    .resources-content #resources-button
+    {
+        margin-top: 24px;
+    }
     .home-feature-grid
     {
         grid-template-columns: minmax(0, 1fr);
@@ -861,5 +1179,165 @@ input[type=range]::-moz-range-thumb
     .home-feature-card
     {
         min-height: 0;
+    }
+}
+
+.tutorial-banner
+{
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.7fr);
+    align-items: center;
+    gap: clamp(20px, 4vw, 64px);
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 300px;
+    margin-top: 50px;
+    padding: clamp(24px, 4vw, 56px);
+    background: linear-gradient(45deg, #e87d0d, #265787);
+}
+.tutorial-nav
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 20px 0 20px 20px;
+}
+.tutorial-nav-link
+{
+    max-width: 100%;
+    margin: 0;
+    padding: 4px 8px;
+    color: #265787;
+    background: transparent;
+    box-shadow: none;
+    font-size: clamp(1.2rem, 2.2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+.tutorial-nav-link:hover
+{
+    color: #dadada;
+    background: #00000018;
+}
+.tutorial-banner-main
+{
+    min-width: 0;
+    text-align: center;
+}
+#huge-title-o.tutorial-banner-title
+{
+    margin: 0 0 20px;
+    color: #dadada;
+    font-size: clamp(3.5rem, 8vw, 8.125rem);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+.tutorial-banner-logo
+{
+    display: block;
+    width: min(100%, 460px);
+    max-height: min(46vh, 460px);
+    height: auto;
+    margin-inline: auto;
+    object-fit: contain;
+}
+.tuto
+{
+    box-sizing: border-box;
+    width: min(100%, 1248px);
+    min-width: 0;
+    margin: 30px auto 50px;
+    padding-inline: clamp(16px, 3vw, 24px);
+    scroll-margin-top: 24px;
+}
+.tuto > h2
+{
+    margin: 10px 0 20px;
+    color: #dadada;
+    font-size: clamp(2.25rem, 5.5vw, 4.375rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+.tutorial-copy
+{
+    display: block;
+    min-width: 0;
+    color: #dadada75;
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+.tutorial-copy a
+{
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px)
+{
+    .tutorial-banner
+    {
+        grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.2fr);
+        gap: 20px;
+        padding: 28px 24px;
+    }
+    .tutorial-nav
+    {
+        padding-left: 8px;
+    }
+}
+@media (max-width: 650px)
+{
+    .tutorial-banner
+    {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 28px;
+        padding: 28px 16px;
+    }
+    .tutorial-banner-main
+    {
+        grid-row: 1;
+    }
+    #huge-title-o.tutorial-banner-title
+    {
+        font-size: clamp(3rem, 14vw, 5rem);
+    }
+    .tutorial-banner-logo
+    {
+        width: min(72vw, 300px);
+        max-height: 32vh;
+    }
+    .tutorial-nav
+    {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 10px;
+        padding: 12px 0 0;
+    }
+    .tutorial-nav-link
+    {
+        padding: 8px 6px;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .tuto
+    {
+        width: 100%;
+        margin: 24px auto 40px;
+        padding-inline: 16px;
+    }
+    .tuto > h2
+    {
+        font-size: clamp(2rem, 9vw, 3.25rem);
+    }
+    .tutorial-copy
+    {
+        font-size: 1rem;
+        line-height: 1.6;
     }
 }

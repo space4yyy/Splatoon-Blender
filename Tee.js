@@ -225,7 +225,7 @@ window.updateTee(window.teeColor, file, window.teeSize, window.teeTeam, file2)
 
 // Render
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: tee_customizer });
-renderer.setSize( window.tee_customizer.width*2, window.tee_customizer.height*2 )
+renderer.setSize(window.tee_customizer.width * 2, window.tee_customizer.height * 2, false)
 renderer.render(scene, camera);
 
 
