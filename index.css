@@ -214,6 +214,80 @@ button.button-shadow:hover
 }
 
 
+.download-actions
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 30px 20px;
+}
+.download-actions > *
+{
+    min-width: 0;
+}
+.download-actions > form
+{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+.download-actions button
+{
+    box-sizing: border-box;
+    max-width: 100%;
+    margin: 0;
+    padding: 7px clamp(12px, 1.5vw, 20px);
+    font-size: clamp(16px, 2vw, 30px);
+    line-height: 1.15;
+    white-space: normal;
+}
+.download-actions .complete-kit-button
+{
+    padding: 10px clamp(24px, 2.5vw, 50px);
+    font-size: clamp(32px, 3vw, 60px);
+    font-weight: 600;
+}
+
+.home-nav
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 16px;
+}
+.home-nav button
+{
+    flex: 1 1 180px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 200px;
+    min-height: 40px;
+    margin: 0;
+    padding: 0 8px;
+    font-size: clamp(16px, 2vw, 25px);
+    line-height: 1.15;
+}
+.home-nav .nav-doc-button
+{
+    background: linear-gradient(70deg, #2ecc2380, #12970980);
+}
+.home-nav .nav-resources-button
+{
+    background: linear-gradient(70deg, #078e9880, #03c1cd80);
+}
+.home-nav .nav-ink-colors-button
+{
+    background: linear-gradient(70deg, #ad035580, #e0308580);
+}
+
+
 .zoomable
 {
     transition: all 0.2s;
