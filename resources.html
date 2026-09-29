@@ -15,6 +15,110 @@
     <meta name="og:image" itemprop="image" content="https://i.ibb.co/CV5mJ4V/Logo.png">
     <meta content="#e87e0d" data-react-helmet="true" name="theme-color" />
 
+    <style>
+        @font-face {
+            font-family: "ResourceChinese";
+            src: url("./resources/fonts/DFP_GBZY7.ttf") format("truetype");
+            font-display: swap;
+        }
+
+        #resource-language-control {
+            position: absolute;
+            top: 18px;
+            right: 30px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            color: #ffffffc0;
+            font: 500 16px Barlow, sans-serif;
+        }
+
+        #resource-language {
+            margin: 0;
+            padding: 8px 12px;
+            border: 1px solid #ffffff55;
+            border-radius: 16px;
+            color: #fff;
+            background: #292929;
+            font: inherit;
+        }
+
+        #resource-section-controls {
+            position: absolute;
+            inset: 0;
+            display: block !important;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #resource-section-controls .wall-button {
+            position: absolute !important;
+            top: 50%;
+            margin: 0 !important;
+            padding: 0;
+            transform: translateY(-50%);
+            pointer-events: auto;
+        }
+
+        #previous-section {
+            left: 20px;
+        }
+
+        #next-section {
+            right: 20px;
+        }
+
+        #resource-name {
+            top: 50%;
+            left: 100px;
+            width: calc(100% - 200px);
+            transform: translateY(-50%);
+            font-size: clamp(24px, 7vw, 160px);
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            #resource-language-control {
+                top: 8px;
+                right: 10px;
+                font-size: 13px;
+            }
+
+            #resource-language {
+                padding: 6px 8px;
+            }
+
+            #resource-name {
+                left: 58px;
+                width: calc(100% - 116px);
+            }
+
+            #resource-section-controls .wall-button,
+            #resource-section-controls .wall-button svg {
+                width: 44px !important;
+                height: 44px !important;
+            }
+
+            #previous-section {
+                left: 8px;
+            }
+
+            #next-section {
+                right: 8px;
+            }
+        }
+
+        html[lang^="zh"] body,
+        html[lang^="zh"] body :is(button, select, p, span, h2, h3) {
+            font-family: "ResourceChinese", Barlow, sans-serif;
+        }
+
+        html[lang^="zh"] #resource-name {
+            font-family: "Splat-Bold", "ResourceChinese", sans-serif !important;
+        }
+    </style>
+
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +146,7 @@
                     <h3 id="raw-name" style="text-align: center;">Fig_AcousticGuitar00_ShareTex_01</h3>
                     <img id="big-icon" style="width: 50%; text-align: center; margin-left: 25%;">
                     <button class="resource-button" id="big-download-button" style="width: calc(100% - 50px); margin-top: 20px;">Download</button>
-                    <p style="margin: 20px;">Model previewer doesn't support team color texture modification, result can be black/white. It's a quick automatic shader recreation, result is usually better when imported in Blender.</p>
+                    <p id="previewer-note" style="margin: 20px;">Model previewer doesn't support team color texture modification, result can be black/white. It's a quick automatic shader recreation, result is usually better when imported in Blender.</p>
                 </div>
             </div>
 
@@ -59,17 +163,23 @@
         </div>
     </div>
 
-    <div style="width: 100vw; margin: 0; margin-bottom: 40px; min-height: 400px;" id="resource-wall">
-        <h1 id="resource-name" style="z-index: 0; position: absolute; margin: 0; color: #ffffff50; -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; font-family: Splat-Bold; line-height: 170px;">Locker Models</h1>
+    <div style="position: relative; width: 100vw; margin: 0; margin-bottom: 40px; min-height: 400px;" id="resource-wall">
+        <div id="resource-language-control">
+            <select id="resource-language" aria-label="Language">
+                <option value="USen">English</option>
+                <option value="CNzh">简体中文</option>
+                <option value="JPja">日本語</option>
+            </select>
+        </div>
+        <h1 id="resource-name" style="z-index: 0; position: absolute; margin: 0; color: #ffffff50; -moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; font-family: Splat-Bold;">Locker Models</h1>
 
-        <div style="display: flex;">
-            <button class="wall-button" style="position: relative; margin-top: 10%; margin-left: 30px; height: 60px; width: 60px; padding: 0; rotate: 90deg;">
+        <div id="resource-section-controls">
+            <button id="previous-section" class="wall-button" style="width: 60px; height: 60px; rotate: 90deg;">
                 <svg fill="#ffffff65" width="60px" height="60px" viewBox="0 0 40 40">
                     <g><path d="M20,0C8.973,0,0,8.973,0,20c0,11.027,8.973,20,20,20c11.027,0,20-8.973,20-20C40,8.973,31.027,0,20,0z M27.756,23.465l-6.279,5.332C21.051,29.158,20.525,29.34,20,29.34c-0.526,0-1.052-0.182-1.478-0.543l-6.279-5.332c-0.959-0.816-1.077-2.256-0.262-3.217c0.815-0.959,2.255-1.078,3.216-0.262l2.521,2.141v-9.186c0-1.26,1.021-2.281,2.282-2.281c1.26,0,2.281,1.021,2.281,2.281v9.186l2.521-2.141c0.962-0.814,2.401-0.697,3.218,0.262C28.834,21.209,28.716,22.648,27.756,23.465z"/></g>
                 </svg>
             </button>
-            <div style="width: calc(100% - 250px);"></div>
-            <button class="wall-button" style="position: relative; margin-top: 10%; margin-left: 30px; height: 60px; width: 60px; padding: 0; rotate: -90deg;">
+            <button id="next-section" class="wall-button" style="width: 60px; height: 60px; rotate: -90deg;">
                 <svg fill="#ffffff65" width="60px" height="60px" viewBox="0 0 40 40">
                     <g><path d="M20,0C8.973,0,0,8.973,0,20c0,11.027,8.973,20,20,20c11.027,0,20-8.973,20-20C40,8.973,31.027,0,20,0z M27.756,23.465l-6.279,5.332C21.051,29.158,20.525,29.34,20,29.34c-0.526,0-1.052-0.182-1.478-0.543l-6.279-5.332c-0.959-0.816-1.077-2.256-0.262-3.217c0.815-0.959,2.255-1.078,3.216-0.262l2.521,2.141v-9.186c0-1.26,1.021-2.281,2.282-2.281c1.26,0,2.281,1.021,2.281,2.281v9.186l2.521-2.141c0.962-0.814,2.401-0.697,3.218,0.262C28.834,21.209,28.716,22.648,27.756,23.465z"/></g>
                 </svg>
@@ -77,9 +187,9 @@
         </div>
 
         <div style="position: absolute; top: 340px; height: 40px; width: 500px; margin-left: 20px; display: flex;">
-            <button onclick="window.open('./', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
-            <button onclick="window.open('./documentation', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc & Tuto</button>
-            <button onclick="window.open('./ink-colors', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
+            <button id="addon-button" onclick="window.open('./', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
+            <button id="documentation-button" onclick="window.open('./documentation', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc &amp; Tuto</button>
+            <button id="ink-colors-button" onclick="window.open('./ink-colors', '_self')" style="width: 300px; margin: 0; height: 40px; padding: 0; font-size: 25px; margin-right: 10px; background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
         </div>
 
         <script>
@@ -145,12 +255,12 @@
             window.currentSection = 0
             document.getElementsByClassName('wall-button')[0].addEventListener('click', () =>
             {
-                window.currentSection--;
+                window.currentSection = (window.currentSection + sectionColor.length - 1) % sectionColor.length;
                 updateSection()
             })
             document.getElementsByClassName('wall-button')[1].addEventListener('click', () =>
             {
-                window.currentSection++;
+                window.currentSection = (window.currentSection + 1) % sectionColor.length;
                 updateSection()
             })
 
@@ -164,7 +274,10 @@
                 document.querySelector(':root').style.setProperty('--m-color-a-alpha', '#'+sectionColor[window.currentSection].colorA+'50')
                 document.querySelector(':root').style.setProperty('--m-color-b-alpha', '#'+sectionColor[window.currentSection].colorB+'50')
 
-                document.getElementById('resource-name').innerText = sectionColor[window.currentSection].name
+                const section = sectionColor[window.currentSection]
+                document.getElementById('resource-name').innerText = window.resourceI18n
+                    ? window.resourceI18n.getSectionName(section.directory, section.name)
+                    : section.name
 
                 window.directory = sectionColor[window.currentSection].directory
                 window.list = sectionColor[window.currentSection].list
@@ -173,6 +286,8 @@
                 window.updateAllModels()
                 window.setQueryParameter('list', window.currentSection.toString());
             }
+
+            window.updateResourceSection = updateSection
 
             window.addEventListener('load', () =>
             {
@@ -229,16 +344,18 @@
                 element.id = ''
                 element.childNodes[1].setAttribute('mode-name', n)
                 element.childNodes[7].childNodes[1].setAttribute('fill', '#4F4F4F')
-                element.childNodes[5].childNodes[1].innerText = n.split('_')[Math.min(1, n.split('_').length-1)].replace(/([A-Z])/g, ' $1').trim().replace(/\B(?=(\d{2})+(?!\d))/g, " ")
+                let displayName = n.split('_')[Math.min(1, n.split('_').length-1)].replace(/([A-Z])/g, ' $1').trim().replace(/\B(?=(\d{2})+(?!\d))/g, " ")
                 element.childNodes[5].childNodes[5].innerText = n
                 if(window.directory == 'Weapons/')
                 {
-                    element.childNodes[5].childNodes[1].innerText = n.slice(4, n.length).replaceAll('_', ' ')
+                    displayName = n.slice(4, n.length).replaceAll('_', ' ')
                 }
                 if(window.directory == 'Head/' || window.directory == 'Cloth/' || window.directory == 'Shoes/')
                 {
-                    element.childNodes[5].childNodes[1].innerText = n.slice(n.split(' ')[0].length, n.length)
+                    displayName = n.slice(n.split(' ')[0].length, n.length)
                 }
+                const localizedName = window.resourceI18n?.getItemName(n, window.directory)
+                element.childNodes[5].childNodes[1].innerText = localizedName || displayName
                 
 
                 let rawN = n
@@ -309,7 +426,6 @@
                 {
                     if(element.childNodes[3].getAttribute('loaded') == 'true'){return;}
 
-                    console.log('a');
                     element.childNodes[3].setAttribute('loaded', 'true');
 
                     element.childNodes[3].src = startImagePath+n+'.png'
@@ -622,9 +738,10 @@
 
 
     <div style="background-color: #111111; width: 100vw; min-height: 100px; margin-top: 30px; padding: 50px; padding-top: 10px;">
-        <h2 style="color: #e87d0d; font-size: 50px;">Import any model in 10 seconds!</h2>
-        <span style="font-size: larger;">- Download the model with the arrow button<br>- Unzip (open) the downloaded file<br>- In Blender go to File > Import > Splatoon Model and choose your file</span>
-        <br><br><span>Downlaod the <a href="https://coconutsxxs.github.io/Splatoon-Blender/" style="color: #e87d0d;">Splatoon Model Importer</a> Blender add-on.</span>
+        <h2 id="import-instructions-title" style="color: #e87d0d; font-size: 50px;">Import any model in 10 seconds!</h2>
+        <span id="import-instructions-steps" style="font-size: larger;">- Download the model with the arrow button<br>- Unzip (open) the downloaded file<br>- In Blender go to File &gt; Import &gt; Splatoon Model and choose your file</span>
+        <br><br><span id="import-addon-text">Download the <a href="https://coconutsxxs.github.io/Splatoon-Blender/" style="color: #e87d0d;">Splatoon Model Importer</a> Blender add-on.</span>
     </div>
+    <script type="module" src="./resources/i18n.js"></script>
 </body>
 </html>
