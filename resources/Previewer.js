@@ -1,8 +1,7 @@
 import * as THREE from 'https://unpkg.com/three@0.174.0/build/three.module.js';
 import { ColladaLoader } from '../ColladaLoader.js';
 
-var startPath = 'https://coconutsxxs.github.io/Splatoon-Blender'
-startPath = ''
+const startPath = new URL("../", import.meta.url).pathname.replace(/\/$/, "")
 
 Array.prototype.max = function() {
     return Math.max.apply(null, this);
