@@ -498,7 +498,24 @@ async function loadScene(canvas)
 
     wait(300).then(() => click = true)
 
-    return {scene: center, camera: camera, loop: loop, destroy:destroy, renderer:renderer}
+    const raycaster = new THREE.Raycaster();
+    function hitsModel(clientX, clientY) {
+        const bounds = canvas.getBoundingClientRect();
+        const pointer = new THREE.Vector2(
+            ((clientX - bounds.left) / bounds.width) * 2 - 1,
+            -((clientY - bounds.top) / bounds.height) * 2 + 1,
+        );
+        center.updateWorldMatrix(true, true);
+        camera.updateMatrixWorld();
+        raycaster.setFromCamera(pointer, camera);
+        // Some imported skinned meshes do not provide reliable triangle hits.
+        // Protect their full bounds as well so clicking the object never dismisses it.
+        const bounds3D = new THREE.Box3().setFromObject(center);
+        return raycaster.intersectObject(center, true).some(hit => hit.object.isMesh)
+            || (!bounds3D.isEmpty() && raycaster.ray.intersectsBox(bounds3D));
+    }
+
+    return {scene: center, camera: camera, loop: loop, destroy:destroy, renderer:renderer, hitsModel}
 }
 window.loadScene = loadScene
 window.loadModel = loadModel

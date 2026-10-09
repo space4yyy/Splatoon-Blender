@@ -71,8 +71,28 @@
         #preview-sidebar {
             box-sizing: border-box;
             height: 100%;
-            padding-top: 80px;
             overflow-y: auto;
+        }
+        body.resource-preview-open > .back-home { display: none; }
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+        }
+        #close-resource-preview {
+            flex: none;
+            width: 50px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+        #clean-name {
+            min-width: 0;
+            margin: 0;
+            text-align: left;
+            overflow-wrap: anywhere;
         }
 
         #resource-section-controls {
@@ -288,8 +308,8 @@
     
             <div style="top:0; position: absolute; width: 100vw; height: 100vh; pointer-events: none; display: flex;">
                 <div id="preview-sidebar" style="background-color: #1f1f1fcf; width: 40vw; min-width: 350px; max-width: 500px; pointer-events:all;">
-                    <div style="display: flex;">
-                        <button class="resource-button" aria-label="关闭模型预览" onclick="document.getElementById('full-screen').style.display = 'none'; window.deleteQueryParameter('item');" style="width: 50px; height: 50px; margin-top: 20px; padding: 0;">
+                    <div class="preview-header">
+                        <button id="close-resource-preview" class="resource-button" aria-label="关闭模型预览">
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 212.982 212.982" style="padding: 12.5px; width:25px; height: 25px" xml:space="preserve">
                             <g id="Close">
                                 <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M131.804,106.491l75.936-75.936c6.99-6.99,6.99-18.323,0-25.312
@@ -298,7 +318,7 @@
                                     c6.989,6.99,18.322,6.99,25.312,0c6.99-6.99,6.99-18.322,0-25.312L131.804,106.491z"/>
                             </svg>
                         </button>
-                        <h2 id="clean-name" style="text-align: center; margin-top: 29px;">Fig_AcousticGuitar00_ShareTex_01</h2>
+                        <h2 id="clean-name">Fig_AcousticGuitar00_ShareTex_01</h2>
                     </div>
                     <h3 id="raw-name" style="text-align: center;">Fig_AcousticGuitar00_ShareTex_01</h3>
                     <img id="big-icon" style="width: 50%; text-align: center; margin-left: 25%;">
@@ -802,6 +822,20 @@
 
     <script type="module">
         document.getElementById('full-screen').style.display = 'none'
+        let previewReturnFocus;
+        function closeResourcePreview() {
+            document.getElementById('full-screen').style.display = 'none';
+            document.body.classList.remove('resource-preview-open');
+            window.deleteQueryParameter?.('item');
+            if (previewReturnFocus?.isConnected) previewReturnFocus.focus();
+        }
+        document.getElementById('close-resource-preview').addEventListener('click', closeResourcePreview);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !event.defaultPrevented && document.body.classList.contains('resource-preview-open')) {
+                event.preventDefault();
+                closeResourcePreview();
+            }
+        });
 
         let bigCanvas = document.getElementById('big-preview')
 
@@ -809,6 +843,25 @@
         bigCanvas.height = window.innerHeight
 
         const scene = await window.loadScene(bigCanvas)
+        let previewPointerStart;
+        bigCanvas.addEventListener('pointerdown', event => {
+            previewPointerStart = event.button === 0 ? {
+                x: event.clientX,
+                y: event.clientY,
+                onModel: scene.hitsModel(event.clientX, event.clientY),
+            } : null;
+        });
+        bigCanvas.addEventListener('pointercancel', () => { previewPointerStart = null; });
+        bigCanvas.addEventListener('click', event => {
+            const start = previewPointerStart;
+            previewPointerStart = null;
+            if (!start || !document.body.classList.contains('resource-preview-open')) return;
+            const sidebarRight = document.getElementById('preview-sidebar').getBoundingClientRect().right;
+            if (start.x <= sidebarRight || event.clientX <= sidebarRight) return;
+            // A drag rotates the model; only a click on empty canvas dismisses it.
+            if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 6) return;
+            if (!start.onModel && !scene.hitsModel(event.clientX, event.clientY)) closeResourcePreview();
+        });
 
         window.addEventListener('resize', () =>
         {
@@ -836,6 +889,9 @@
             document.getElementById('big-icon').src = element.childNodes[3].src
 
             document.getElementById('full-screen').style.display = 'block'
+            if (!document.body.classList.contains('resource-preview-open')) previewReturnFocus = document.activeElement;
+            document.body.classList.add('resource-preview-open');
+            document.getElementById('close-resource-preview').focus({ preventScroll: true });
 
             document.getElementById('big-download-button').onclick = () => {element.childNodes[7].click()}
 
