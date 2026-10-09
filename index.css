@@ -1,3 +1,68 @@
+@font-face {
+    font-family: Barlow;
+    src: url('./resources/fonts/Barlow-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: Barlow;
+    src: url('./resources/fonts/Barlow-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-display: swap;
+}
+@font-face {
+    font-family: Barlow;
+    src: url('./resources/fonts/Barlow-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+.back-home,
+#resource-language.page-nav-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--m-color-a, #aa410f) 78%, white);
+    color: #19151e;
+    font: 700 16px/20px "Splatoon3UI", "ResourceChinese", Barlow, sans-serif;
+    text-decoration: none;
+    box-shadow: 0 4px 16px #6d307b30;
+    transition: filter 150ms ease, box-shadow 150ms ease;
+}
+
+.back-home {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1000;
+}
+
+#resource-language.page-nav-control {
+    padding-right: 44px;
+    background: color-mix(in srgb, var(--m-color-b, #ac8ef6) 78%, white);
+}
+
+.back-home span[aria-hidden] {
+    color: inherit;
+}
+
+.back-home:hover,
+#resource-language.page-nav-control:hover {
+    filter: brightness(1.12);
+    box-shadow: 0 5px 20px #b294ef50;
+}
+
+.back-home:focus-visible,
+#resource-language.page-nav-control:focus-visible {
+    outline: 3px solid #ff9b3d;
+    outline-offset: 3px;
+}
+
 body
 {
     margin: 0;

@@ -37,7 +37,7 @@
         <form class="download-action-form" method="get" action="./add-ons/cloth.zip">
             <button type="submit" class="left" id="cloth-download">Cloth Importer</button>
         </form>
-        <button id="character-download" class="left" onclick='window.open("https://drive.usercontent.google.com/download?id=1ESO53aROGguwqeiQoGGhdSTxz1fytKQ9", "_blank")'>Character Creator</button>
+        <button id="character-download" class="left">Character Creator</button>
         <button class="complete-kit-button" onclick="document.getElementById('model-download').click();document.getElementById('cloth-download').click();document.getElementById('ink-download').click();document.getElementById('character-download').click()">Complete Kit</button>
         <form class="download-action-form" method="get" action="./add-ons/ink.zip">
             <button id="ink-download" class="right">Dynamic Ink</button>
@@ -46,11 +46,72 @@
             <button id="model-download" class="right">Model Importer</button>
         </form>
     </div>
+    <script type="module">
+        const characterDownload = document.getElementById("character-download");
+        const discordJoin = document.getElementById("discord-join");
+
+        if (__DESKTOP_OFFLINE__) {
+            const showDownloadNotice = (message, isError = false) => {
+                const notice = document.createElement("div");
+                notice.textContent = message;
+                Object.assign(notice.style, {
+                    position: "fixed",
+                    left: "50%",
+                    bottom: "24px",
+                    transform: "translateX(-50%)",
+                    zIndex: "10000",
+                    maxWidth: "calc(100vw - 32px)",
+                    padding: "12px 18px",
+                    borderRadius: "8px",
+                    color: "white",
+                    background: isError ? "#9b2727" : "#252525",
+                    boxShadow: "0 4px 18px #0005",
+                    fontSize: "14px",
+                });
+                document.body.append(notice);
+                window.setTimeout(() => notice.remove(), 4500);
+            };
+            const saveBundledAddon = async filename => {
+                try {
+                    const savedPath = await window.__TAURI__.core.invoke("save_addon", { filename });
+                    if (savedPath) showDownloadNotice(`已保存到 ${savedPath}`);
+                } catch (error) {
+                    showDownloadNotice(String(error), true);
+                }
+            };
+
+            document.querySelectorAll(".download-action-form").forEach(form => {
+                form.addEventListener("submit", event => {
+                    event.preventDefault();
+                    const filename = new URL(form.action, window.location.href).pathname.split("/").pop();
+                    saveBundledAddon(filename);
+                });
+            });
+
+            if (__CHARACTER_CREATOR_BUNDLED__) {
+                characterDownload.addEventListener("click", () => saveBundledAddon("character.zip"));
+            } else {
+                characterDownload.disabled = true;
+                characterDownload.title = "The Character Creator archive is not included in this offline build.";
+                document.querySelector(".complete-kit-button").textContent = "Available Add-Ons";
+            }
+
+            discordJoin.disabled = true;
+            discordJoin.title = "Discord requires an internet connection.";
+        } else {
+            characterDownload.addEventListener("click", () => {
+                window.open("https://drive.usercontent.google.com/download?id=1ESO53aROGguwqeiQoGGhdSTxz1fytKQ9", "_blank");
+            });
+            discordJoin.addEventListener("click", () => {
+                window.open("https://discord.gg/zPp7wvf37r", "_blank");
+            });
+        }
+    </script>
     <div class="home-nav">
         <!-- <button class="doc-button" onclick="window.open('./documentation', '_blank')">Documentation & Tutorials</button> -->
-        <button onclick="window.open('./documentation', '_self')" class="button-shadow nav-doc-button">Doc & Tuto</button>
-        <button onclick="window.open('../resources', '_self')" class="button-shadow nav-resources-button">Resources</button>
-        <button onclick="window.open('../ink-colors', '_self')" class="button-shadow nav-ink-colors-button">Ink Colors</button>
+        <button onclick="window.location.href='./documentation/index.html'" class="button-shadow nav-doc-button">Doc & Tuto</button>
+        <button onclick="window.location.href='./resources.html'" class="button-shadow nav-resources-button">Resources</button>
+        <button onclick="window.location.href='./ink-colors.html'" class="button-shadow nav-ink-colors-button">Ink Colors</button>
     </div>
 
     <main class="home-feature-grid">
@@ -178,7 +239,7 @@
         <div class="community-copy">
             <h2 id="extrude-title">Join the Community</h2>
             <p>Discover other Splatoon creators, share your art, learn new skills and have fun in the official Splatoon Blender Discord server. Need game models? Download game files uploaded by the community for your projects. Ask help, report a bug and make suggestions!</p>
-            <button onclick='window.open("https://discord.gg/zPp7wvf37r", "_blank")' class="discord">JOIN</button>
+            <button id="discord-join" class="discord">JOIN</button>
         </div>
         <div class="community-widget">
             <iframe src="https://discord.com/widget?id=1229019909401346128&theme=dark" title="Splatoon Blender Discord community" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
@@ -225,9 +286,24 @@
     
                     document.getElementById('tee-texture-download').addEventListener('click', async (e) =>
                     {
+                        const texture = (await TeeTexture()).source.data;
+                        if (window.__TAURI__?.core) {
+                            try {
+                                const blob = await new Promise(resolve => texture.toBlob(resolve, 'image/png'));
+                                if (!blob) throw new Error('无法生成图片');
+                                const savedPath = await window.__TAURI__.core.invoke('save_archive', {
+                                    filename: 'Custom_Splatfest_Tee_Alb.png',
+                                    bytes: Array.from(new Uint8Array(await blob.arrayBuffer())),
+                                });
+                                if (savedPath) alert(`已保存到 ${savedPath}`);
+                            } catch (error) {
+                                alert(`无法保存图片：${error}`);
+                            }
+                            return;
+                        }
                         var link = document.createElement('a');
                         link.download = 'Custom_Splatfest_Tee_Alb.png';
-                        link.href = (await TeeTexture()).source.data.toDataURL()
+                        link.href = texture.toDataURL()
                         link.click();
                     })
                     document.getElementById('tee-model-download').addEventListener('click', async (e) =>
@@ -412,7 +488,7 @@
                     }
                 </script>
 
-                <button onclick="window.open('./resources', '_blank')" id="resources-button">Go to Resources</button>
+                <button onclick="window.location.href='./resources.html'" id="resources-button">Go to Resources</button>
             </div>
         </section>
     </div>

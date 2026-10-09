@@ -1,8 +1,16 @@
-const languageSources = {
+const remoteLanguageSources = {
     USen: "https://leanny.github.io/splat3/data/language/USen.json",
     CNzh: "https://leanny.github.io/splat3/data/language/CNzh.json",
     JPja: "https://leanny.github.io/splat3/data/language/JPja.json",
 }
+
+const bundledLanguageSources = {
+    USen: "./resources/i18n/USen.json",
+    CNzh: "./resources/i18n/CNzh.json",
+    JPja: "./resources/i18n/JPja.json",
+}
+
+const languageSources = __DESKTOP_OFFLINE__ ? bundledLanguageSources : remoteLanguageSources
 
 const browserLocales = {
     USen: "en",

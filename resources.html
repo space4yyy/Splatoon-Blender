@@ -51,24 +51,41 @@
         }
 
         #resource-language-control {
-            position: absolute;
+            position: fixed;
             top: 18px;
-            right: 30px;
-            z-index: 2;
+            right: 18px;
+            z-index: 1000;
             display: flex;
             align-items: center;
             color: #ffffffc0;
             font: 500 16px Barlow, sans-serif;
         }
 
-        #resource-language {
-            margin: 0;
-            padding: 8px 12px;
-            border: 1px solid #ffffff55;
-            border-radius: 16px;
-            color: #fff;
-            background: #292929;
-            font: inherit;
+        #resource-language.page-nav-control {
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+
+        #resource-language-control::after {
+            content: "";
+            position: absolute;
+            right: 18px;
+            top: 17px;
+            width: 7px;
+            height: 7px;
+            border-right: 2px solid #19151e;
+            border-bottom: 2px solid #19151e;
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+
+        #preview-sidebar {
+            box-sizing: border-box;
+            height: 100%;
+            padding-top: 80px;
+            overflow-y: auto;
         }
 
         #resource-section-controls {
@@ -220,16 +237,6 @@
         }
 
         @media (max-width: 600px) {
-            #resource-language-control {
-                top: 8px;
-                right: 10px;
-                font-size: 13px;
-            }
-
-            #resource-language {
-                padding: 6px 8px;
-            }
-
             #resource-name {
                 left: 58px;
                 width: calc(100% - 116px);
@@ -257,7 +264,9 @@
         }
 
         html[lang^="zh"] #resource-name {
-            font-family: "Splat-Bold", "ResourceChinese", sans-serif !important;
+            font-family: "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "ResourceChinese", sans-serif !important;
+            font-weight: 600;
+            font-synthesis: none;
         }
 
         html[lang^="en"] body,
@@ -285,14 +294,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #1f1f1f; scrollbar-color: #1f1F1F #3f3F3F;">
+    <a class="back-home" href="./index.html"><span aria-hidden="true">←</span> 返回首页</a>
     <div style="position: absolute; height: 100%; z-index: 10;">
         <div style="top:0; position: sticky; display: none;" id="full-screen">
             <canvas id="big-preview" style="width: 100vw; height: 100vh; margin: 0;"></canvas>
     
             <div style="top:0; position: absolute; width: 100vw; height: 100vh; pointer-events: none; display: flex;">
-                <div style="background-color: #1f1f1fcf; width: 40vw; min-width: 350px; max-width: 500px; pointer-events:all;">
+                <div id="preview-sidebar" style="background-color: #1f1f1fcf; width: 40vw; min-width: 350px; max-width: 500px; pointer-events:all;">
                     <div style="display: flex;">
-                        <button class="resource-button" onclick="document.getElementById('full-screen').style.display = 'none'; window.deleteQueryParameter('item');" style="width: 50px; height: 50px; margin-top: 20px; padding: 0;">
+                        <button class="resource-button" aria-label="关闭模型预览" onclick="document.getElementById('full-screen').style.display = 'none'; window.deleteQueryParameter('item');" style="width: 50px; height: 50px; margin-top: 20px; padding: 0;">
                             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 212.982 212.982" style="padding: 12.5px; width:25px; height: 25px" xml:space="preserve">
                             <g id="Close">
                                 <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M131.804,106.491l75.936-75.936c6.99-6.99,6.99-18.323,0-25.312
@@ -325,7 +335,7 @@
 
     <div style="position: relative; width: 100vw; margin: 0; margin-bottom: 40px; min-height: 400px;" id="resource-wall">
         <div id="resource-language-control">
-            <select id="resource-language" aria-label="Language">
+            <select id="resource-language" class="page-nav-control" aria-label="Language">
                 <option value="USen">English</option>
                 <option value="CNzh">简体中文</option>
                 <option value="JPja">日本語</option>
@@ -347,9 +357,9 @@
         </div>
 
         <div id="resource-quick-links">
-            <button id="addon-button" onclick="window.open('./', '_self')" style="background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
-            <button id="documentation-button" onclick="window.open('./documentation', '_self')" style="background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc &amp; Tuto</button>
-            <button id="ink-colors-button" onclick="window.open('./ink-colors', '_self')" style="background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
+            <button id="addon-button" onclick="window.location.href='./index.html'" style="background: linear-gradient(70deg, #ff6f22, #db4d00);" class="button-shadow">Add-On</button>
+            <button id="documentation-button" onclick="window.location.href='./documentation/index.html'" style="background: linear-gradient(70deg, #2ecc23, #129709);" class="button-shadow">Doc &amp; Tuto</button>
+            <button id="ink-colors-button" onclick="window.location.href='./ink-colors.html'" style="background: linear-gradient(70deg, #ad0355, #e03085);" class="button-shadow">Ink Colors</button>
         </div>
 
         <script>
@@ -399,7 +409,7 @@
                     name: 'Weapon Models',
                     colorA: '24b100',
                     colorB: '0cae6e',
-                    list: ['Wmn_Blaster_Coop','Wmn_Blaster_Light','Wmn_Blaster_LightLong_Cstm11','Wmn_Blaster_LightShort','Wmn_Blaster_LightShort_Cstm01','Wmn_Blaster_Light_Cstm01','Wmn_Blaster_Long','Wmn_Blaster_Middle','Wmn_Blaster_Middle_Cstm01','Wmn_Blaster_NormalSdodr','Wmn_Blaster_Precision','Wmn_Blaster_Precision_Cstm01','Wmn_Blaster_Short','Wmn_Blaster_Short_Cstm01','Wmn_Brush_Heavy','Wmn_Brush_Heavy_Cstm01','Wmn_Brush_Mini','Wmn_Brush_Mini_Cstm01','Wmn_Brush_Normal','Wmn_Brush_NormalSdodr','Wmn_Brush_Normal_Cstm01','Wmn_Charger_Coop','Wmn_Charger_Keeper','Wmn_Charger_Keeper_Cstm01','Wmn_Charger_Light','Wmn_Charger_Long','Wmn_Charger_Long.','Wmn_Charger_LongScope_Cstm01','Wmn_Charger_NormalSdodr','Wmn_Charger_NormalT','Wmn_Charger_NormalTScope_Cstm01','Wmn_Charger_Pencil','Wmn_Charger_Pencil_Cstm01','Wmn_Charger_Quick','Wmn_Charger_Quick_Cstm01','Wmn_Maneuver_Coop','Wmn_Maneuver_Dual','Wmn_Maneuver_Dual_Cstm01','Wmn_Maneuver_Gallon','Wmn_Maneuver_Gallon_Cstm01','Wmn_Maneuver_Long','Wmn_Maneuver_NormalSdodr','Wmn_Maneuver_NormalT','Wmn_Maneuver_NormalT_Cstm01','Wmn_Maneuver_Short','Wmn_Maneuver_Short_Cstm01','Wmn_Maneuver_Stepper','Wmn_Maneuver_Stepper_Cstm01','Wmn_Roller_BrushNormal','Wmn_Roller_Compact','Wmn_Roller_Compact_Cstm01','Wmn_Roller_Heavy','Wmn_Roller_Heavy_Cstm01','Wmn_Roller_Hunter','Wmn_Roller_Hunter_Cstm01','Wmn_Roller_NormalSdodr','Wmn_Roller_NormalT','Wmn_Roller_NormalT_Cstm01','Wmn_Roller_Wide','Wmn_Roller_Wide_Cstm01','Wmn_Saber_Coop','Wmn_Saber_Light','Wmn_Saber_Light_Cstm01','Wmn_Saber_Normal','Wmn_Saber_NormalSdodr','Wmn_Saber_Normal_Cstm01','Wmn_Shelter_Compact','Wmn_Shelter_Compact_Cstm01','Wmn_Shelter_Coop','Wmn_Shelter_Focus','Wmn_Shelter_Normal','Wmn_Shelter_NormalSdodr','Wmn_Shelter_Normal_Cstm01','Wmn_Shelter_Wide','Wmn_Shelter_Wide_Cstm01','Wmn_Shooter_Blaze','Wmn_Shooter_Blaze_Cstm01','Wmn_Shooter_Expert','Wmn_Shooter_Expert_Cstm01','Wmn_Shooter_First','Wmn_Shooter_First_Cstm01','Wmn_Shooter_Flash','Wmn_Shooter_Flash_Cstm01','Wmn_Shooter_Gravity','Wmn_Shooter_Gravity_Cstm01','Wmn_Shooter_Heavy','Wmn_Shooter_Heavy_Cstm01','Wmn_Shooter_Long','Wmn_Shooter_Long_Cstm01','Wmn_Shooter_Msn0Lv0','Wmn_Shooter_Normal','Wmn_Shooter_NormalB','Wmn_Shooter_NormalSdodr','Wmn_Shooter_NormalT','Wmn_Shooter_NormalT_Cstm01','Wmn_Shooter_Precision','Wmn_Shooter_QuickLong','Wmn_Shooter_QuickLong_Cstm01','Wmn_Shooter_QuickMiddle','Wmn_Shooter_QuickMiddle_Cstm01','Wmn_Shooter_RvLv0','Wmn_Shooter_RvSdodr','Wmn_Shooter_Short_Cstm01','Wmn_Shooter_Short_Cstm11','Wmn_Shooter_TripleMiddle','Wmn_Shooter_TripleMiddle_Cstm01','Wmn_Shooter_TripleQuick','Wmn_Shooter_TripleQuick_Cstm01','Wmn_Slosher_Bathtub','Wmn_Slosher_Bathtub_Cstm01','Wmn_Slosher_Coop','Wmn_Slosher_Diffusion','Wmn_Slosher_Diffusion_Cstm01','Wmn_Slosher_Double','Wmn_Slosher_Double_Cstm01','Wmn_Slosher_Launcher','Wmn_Slosher_Launcher_Cstm01','Wmn_Slosher_NormalSdodr','Wmn_Slosher_StrongT','Wmn_Slosher_StrongT_Cstm01','Wmn_Slosher_Washtub','Wmn_Slosher_Washtub_Cstm01','Wmn_Spinner_Downpour','Wmn_Spinner_Downpour_Cstm01','Wmn_Spinner_HyperShort','Wmn_Spinner_HyperT','Wmn_Spinner_NormalSdodr','Wmn_Spinner_QuickT','Wmn_Spinner_QuickT_Cstm01','Wmn_Spinner_Serein','Wmn_Spinner_Serein_Cstm01','Wmn_Spinner_StandardT','Wmn_Spinner_StandardT_Cstm01','Wmn_Stringer_Coop','Wmn_Stringer_Normal','Wmn_Stringer_NormalSdodr','Wmn_Stringer_Normal_Cstm01','Wmn_Stringer_Short','Wmn_Stringer_Short_Cstm01'],
+                    list: ['Wmn_Blaster_Coop','Wmn_Blaster_Light','Wmn_Blaster_LightLong_Cstm11','Wmn_Blaster_LightShort','Wmn_Blaster_LightShort_Cstm01','Wmn_Blaster_Light_Cstm01','Wmn_Blaster_Long','Wmn_Blaster_Middle','Wmn_Blaster_Middle_Cstm01','Wmn_Blaster_NormalSdodr','Wmn_Blaster_Precision','Wmn_Blaster_Precision_Cstm01','Wmn_Blaster_Short','Wmn_Blaster_Short_Cstm01','Wmn_Brush_Heavy','Wmn_Brush_Heavy_Cstm01','Wmn_Brush_Mini','Wmn_Brush_Mini_Cstm01','Wmn_Brush_Normal','Wmn_Brush_NormalSdodr','Wmn_Brush_Normal_Cstm01','Wmn_Charger_Coop','Wmn_Charger_Keeper','Wmn_Charger_Keeper_Cstm01','Wmn_Charger_Light','Wmn_Charger_Long','Wmn_Charger_LongScope','Wmn_Charger_LongScope_Cstm01','Wmn_Charger_NormalSdodr','Wmn_Charger_NormalT','Wmn_Charger_NormalTScope_Cstm01','Wmn_Charger_Pencil','Wmn_Charger_Pencil_Cstm01','Wmn_Charger_Quick','Wmn_Charger_Quick_Cstm01','Wmn_Maneuver_Coop','Wmn_Maneuver_Dual','Wmn_Maneuver_Dual_Cstm01','Wmn_Maneuver_Gallon','Wmn_Maneuver_Gallon_Cstm01','Wmn_Maneuver_Long','Wmn_Maneuver_NormalSdodr','Wmn_Maneuver_NormalT','Wmn_Maneuver_NormalT_Cstm01','Wmn_Maneuver_Short','Wmn_Maneuver_Short_Cstm01','Wmn_Maneuver_Stepper','Wmn_Maneuver_Stepper_Cstm01','Wmn_Roller_BrushNormal','Wmn_Roller_Compact','Wmn_Roller_Compact_Cstm01','Wmn_Roller_Heavy','Wmn_Roller_Heavy_Cstm01','Wmn_Roller_Hunter','Wmn_Roller_Hunter_Cstm01','Wmn_Roller_NormalSdodr','Wmn_Roller_NormalT','Wmn_Roller_NormalT_Cstm01','Wmn_Roller_Wide','Wmn_Roller_Wide_Cstm01','Wmn_Saber_Coop','Wmn_Saber_Light','Wmn_Saber_Light_Cstm01','Wmn_Saber_Normal','Wmn_Saber_NormalSdodr','Wmn_Saber_Normal_Cstm01','Wmn_Shelter_Compact','Wmn_Shelter_Compact_Cstm01','Wmn_Shelter_Coop','Wmn_Shelter_Focus','Wmn_Shelter_Normal','Wmn_Shelter_NormalSdodr','Wmn_Shelter_Normal_Cstm01','Wmn_Shelter_Wide','Wmn_Shelter_Wide_Cstm01','Wmn_Shooter_Blaze','Wmn_Shooter_Blaze_Cstm01','Wmn_Shooter_Expert','Wmn_Shooter_Expert_Cstm01','Wmn_Shooter_First','Wmn_Shooter_First_Cstm01','Wmn_Shooter_Flash','Wmn_Shooter_Flash_Cstm01','Wmn_Shooter_Gravity','Wmn_Shooter_Gravity_Cstm01','Wmn_Shooter_Heavy','Wmn_Shooter_Heavy_Cstm01','Wmn_Shooter_Long','Wmn_Shooter_Long_Cstm01','Wmn_Shooter_Msn0Lv0','Wmn_Shooter_Normal','Wmn_Shooter_NormalB','Wmn_Shooter_NormalSdodr','Wmn_Shooter_NormalT','Wmn_Shooter_NormalT_Cstm01','Wmn_Shooter_Precision','Wmn_Shooter_QuickLong','Wmn_Shooter_QuickLong_Cstm01','Wmn_Shooter_QuickMiddle','Wmn_Shooter_QuickMiddle_Cstm01','Wmn_Shooter_RvLv0','Wmn_Shooter_RvSdodr','Wmn_Shooter_Short_Cstm01','Wmn_Shooter_Short_Cstm11','Wmn_Shooter_TripleMiddle','Wmn_Shooter_TripleMiddle_Cstm01','Wmn_Shooter_TripleQuick','Wmn_Shooter_TripleQuick_Cstm01','Wmn_Slosher_Bathtub','Wmn_Slosher_Bathtub_Cstm01','Wmn_Slosher_Coop','Wmn_Slosher_Diffusion','Wmn_Slosher_Diffusion_Cstm01','Wmn_Slosher_Double','Wmn_Slosher_Double_Cstm01','Wmn_Slosher_Launcher','Wmn_Slosher_Launcher_Cstm01','Wmn_Slosher_NormalSdodr','Wmn_Slosher_StrongT','Wmn_Slosher_StrongT_Cstm01','Wmn_Slosher_Washtub','Wmn_Slosher_Washtub_Cstm01','Wmn_Spinner_Downpour','Wmn_Spinner_Downpour_Cstm01','Wmn_Spinner_HyperShort','Wmn_Spinner_HyperT','Wmn_Spinner_NormalSdodr','Wmn_Spinner_QuickT','Wmn_Spinner_QuickT_Cstm01','Wmn_Spinner_Serein','Wmn_Spinner_Serein_Cstm01','Wmn_Spinner_StandardT','Wmn_Spinner_StandardT_Cstm01','Wmn_Stringer_Coop','Wmn_Stringer_Normal','Wmn_Stringer_NormalSdodr','Wmn_Stringer_Normal_Cstm01','Wmn_Stringer_Short','Wmn_Stringer_Short_Cstm01'],
                     directory: 'Weapons/',
                     isBig: false
                 },

@@ -1,4 +1,4 @@
-import * as THREE from 'https://unpkg.com/three@0.174.0/build/three.module.js';
+import * as THREE from 'three';
 import { GLTFLoader } from './GLTFLoader.js'
 
 
@@ -97,7 +97,7 @@ async function teamColoredTexture(tcl='#FF0000', image, team, teamImage)
     _c.width = _c.height = 512
 
     const _ctx = _c.getContext("2d");
-    var img = await loadImage(window.location+'custom_tee/Tee Team Color.png')
+    var img = await loadImage(new URL('./custom_tee/Tee Team Color.png', document.baseURI).href)
     _ctx.fillStyle = tcl
     _ctx.globalAlpha = 1
     _ctx.fillRect(0, 0, 512, 512)
@@ -109,17 +109,17 @@ async function teamColoredTexture(tcl='#FF0000', image, team, teamImage)
     var c = document.createElement('canvas');
     c.width = c.height = 512*4;
     const ctx = c.getContext("2d");
-    img = await loadImage(window.location+'custom_tee/Tee Blank.png')
+    img = await loadImage(new URL('./custom_tee/Tee Blank.png', document.baseURI).href)
 
     ctx.globalCompositeOperation = 'source-over';
-    ctx.drawImage(await loadImage(window.location+'custom_tee/Tee Semi Blank.png'), 0, 0, 512*4, 512*4)
+    ctx.drawImage(await loadImage(new URL('./custom_tee/Tee Semi Blank.png', document.baseURI).href), 0, 0, 512*4, 512*4)
 
     ctx.fillStyle = tcl
     ctx.globalCompositeOperation = 'screen';
     ctx.fillRect(0, 0, 512*4, 512*4)
 
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.drawImage(await loadImage(window.location+'custom_tee/Tee Semi MAI.png'), 0, 0, 512*4, 512*4)
+    ctx.drawImage(await loadImage(new URL('./custom_tee/Tee Semi MAI.png', document.baseURI).href), 0, 0, 512*4, 512*4)
 
     ctx.globalCompositeOperation = 'destination-over';
     ctx.drawImage(img, 0, 0, 512*4, 512*4)
@@ -139,7 +139,7 @@ async function teamColoredTexture(tcl='#FF0000', image, team, teamImage)
     }
     else
     {
-        teamIcon = await loadImage(window.location+'custom_tee/'+team+'.png');
+        teamIcon = await loadImage(new URL('./custom_tee/'+team+'.png', document.baseURI).href);
     }
 
     ctx.drawImage(teamIcon, 512*4*0.577, 512*4*0.135, 512*4*0.11, 512*4*0.11)

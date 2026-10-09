@@ -77,7 +77,7 @@ class Zip {
         }
     }
     
-    makeZip(){
+    async makeZip(){
         const encoder = new TextEncoder();
         const localParts = [];
         const centralParts = [];
@@ -156,6 +156,19 @@ class Zip {
         endView.setUint16(20, 0, true);
 
         const archive = new Blob([...localParts, ...centralParts, endRecord], { type: 'application/zip' });
+        if (window.__TAURI__?.core) {
+            try {
+                const savedPath = await window.__TAURI__.core.invoke('save_archive', {
+                    filename: `${this.name}.zip`,
+                    bytes: Array.from(new Uint8Array(await archive.arrayBuffer())),
+                });
+                if (savedPath) alert(`已保存到 ${savedPath}`);
+            } catch (error) {
+                alert(`Unable to save archive: ${error}`);
+                throw error;
+            }
+            return;
+        }
         const objectUrl = URL.createObjectURL(archive);
         const a = document.createElement('a');
         a.href = objectUrl;

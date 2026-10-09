@@ -1,4 +1,4 @@
-import * as THREE from 'https://unpkg.com/three@0.174.0/build/three.module.js';
+import * as THREE from 'three';
 import { ColladaLoader } from '../ColladaLoader.js';
 
 const startPath = new URL("../", import.meta.url).pathname.replace(/\/$/, "")
@@ -444,7 +444,7 @@ async function loadScene(canvas)
 
 
     // Render
-    const renderer = new THREE.WebGLRenderer({ precision: 'lowp', powerPreference: 'low-power', antialias: true, alpha: true, canvas: canvas, failIfMajorPerformanceCaveat: true });
+    let renderer = new THREE.WebGLRenderer({ precision: 'lowp', powerPreference: 'low-power', antialias: true, alpha: true, canvas: canvas, failIfMajorPerformanceCaveat: true });
 
     renderer.setSize( canvas.width, canvas.height )
     renderer.render(scene, camera);
