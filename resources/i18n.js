@@ -1,17 +1,10 @@
-const remoteLanguageSources = {
-    USen: "https://leanny.github.io/splat3/data/language/USen.json",
-    CNzh: "https://leanny.github.io/splat3/data/language/CNzh.json",
-    JPja: "https://leanny.github.io/splat3/data/language/JPja.json",
-}
-
 const bundledLanguageSources = {
     USen: "./resources/i18n/USen.json",
     CNzh: "./resources/i18n/CNzh.json",
     JPja: "./resources/i18n/JPja.json",
 }
 
-const offlineBuild = typeof __DESKTOP_OFFLINE__ !== "undefined" && __DESKTOP_OFFLINE__
-const languageSources = offlineBuild ? bundledLanguageSources : remoteLanguageSources
+const languageSources = bundledLanguageSources
 
 const browserLocales = {
     USen: "en",
@@ -212,6 +205,7 @@ function refreshResourcePage() {
 }
 
 window.resourceI18n = {
+    getLocale: () => currentLocale,
     getSectionName(directory, fallback) {
         return sectionNames[directory]?.[currentLocale] || fallback
     },
@@ -228,6 +222,8 @@ async function changeLocale(locale) {
     const requestedLocale = currentLocale
     languageSelect.value = currentLocale
     updateInterface(currentLocale)
+    languageSelect.dispatchEvent(new Event("language-picker-sync"))
+    window.dispatchEvent(new CustomEvent("resource-locale-change", { detail: currentLocale }))
 
     try {
         window.localStorage.setItem("resources-locale", currentLocale)
@@ -256,5 +252,7 @@ async function changeLocale(locale) {
 
 languageSelect.value = currentLocale
 languageSelect.addEventListener("change", () => changeLocale(languageSelect.value))
-updateInterface(currentLocale)
+window.addEventListener("storage", event => {
+    if (event.key === "resources-locale") changeLocale(detectLocale())
+})
 changeLocale(currentLocale)

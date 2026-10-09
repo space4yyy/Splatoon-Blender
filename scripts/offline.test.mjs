@@ -67,7 +67,7 @@ test('resource translations initialize on a plain static host and in offline bui
         const elements = new Map();
         const element = id => {
             if (!elements.has(id)) elements.set(id, {
-                value: '', textContent: '', setAttribute() {}, addEventListener() {},
+                value: '', textContent: '', setAttribute() {}, addEventListener() {}, dispatchEvent() {},
                 querySelector: () => element('addon-link'), replaceChildren() {},
             });
             return elements.get(id);
@@ -75,7 +75,8 @@ test('resource translations initialize on a plain static host and in offline bui
         const context = {
             document: { documentElement: {}, getElementById: element, createTextNode: text => text },
             navigator: { languages: ['en-US'] },
-            window: { localStorage: { getItem: () => 'USen', setItem() {} } },
+            window: { localStorage: { getItem: () => 'USen', setItem() {} }, dispatchEvent() {}, addEventListener() {} },
+            Event, CustomEvent,
             fetch: async url => { requests.push(url); return { ok: true, json: async () => ({}) }; },
             console,
         };
@@ -84,8 +85,34 @@ test('resource translations initialize on a plain static host and in offline bui
         await Promise.resolve();
         assert.equal(element('resource-language').value, 'USen');
         assert.equal(context.document.documentElement.lang, 'en');
-        assert.equal(requests[0], offline
-            ? './resources/i18n/USen.json'
-            : 'https://leanny.github.io/splat3/data/language/USen.json');
+        assert.equal(requests[0], './resources/i18n/USen.json');
+    }
+});
+
+test('shared navigation follows resource locale in either script load order', () => {
+    for (const resourceFirst of [false, true]) {
+        const bus = new EventTarget();
+        const select = Object.assign(new EventTarget(), { value: 'USen' });
+        const backHome = { dataset: { uiText: 'backHome' } };
+        const context = {
+            window: {
+                addEventListener: bus.addEventListener.bind(bus),
+                localStorage: { getItem: () => 'CNzh' },
+                ...(resourceFirst ? { resourceI18n: { getLocale: () => 'USen' } } : {}),
+            },
+            document: {
+                querySelector: selector => selector === '#resource-language' ? select : null,
+                querySelectorAll: () => [backHome],
+            },
+            localStorage: { getItem: () => 'CNzh' }, navigator: { languages: ['zh-CN'] }, Event,
+        };
+        new Script(readFileSync('ui-i18n.js', 'utf8').replace(/^import[^\n]+\n/, '')).runInNewContext(context);
+        assert.equal(backHome.textContent, 'Back to Home');
+        bus.dispatchEvent(new CustomEvent('resource-locale-change', { detail: 'CNzh' }));
+        assert.equal(backHome.textContent, '返回首页');
+        assert.equal(context.window.partialUiI18n.text('updatingPreview'), '正在更新预览…');
+        bus.dispatchEvent(new CustomEvent('resource-locale-change', { detail: 'USen' }));
+        assert.equal(backHome.textContent, 'Back to Home');
+        assert.equal(context.window.partialUiI18n.text('updatingPreview'), 'Updating preview…');
     }
 });

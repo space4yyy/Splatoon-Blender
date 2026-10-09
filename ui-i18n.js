@@ -1,4 +1,4 @@
-import './language-picker.js';
+import './language-picker.js?v=20261010';
 
 // Translate only shared navigation and preview status, not page content.
 const messages = {
@@ -15,7 +15,9 @@ function detectLocale() {
         ? 'CNzh' : 'USen';
 }
 
-let locale = detectLocale();
+const resourceSelector = document.querySelector('#resource-language');
+const normalizeLocale = value => value === 'CNzh' ? 'CNzh' : 'USen';
+let locale = normalizeLocale(window.resourceI18n?.getLocale() || resourceSelector?.value || detectLocale());
 const selector = document.querySelector('#ui-language');
 function updateText() {
     document.querySelectorAll('[data-ui-text]').forEach(element => {
@@ -37,8 +39,12 @@ selector?.addEventListener('change', () => {
     try { localStorage.setItem('resources-locale', locale); } catch {}
     updateText();
 });
-document.querySelector('#resource-language')?.addEventListener('change', event => {
+resourceSelector?.addEventListener('change', event => {
     locale = event.target.value === 'CNzh' ? 'CNzh' : 'USen';
+    updateText();
+});
+window.addEventListener('resource-locale-change', event => {
+    locale = normalizeLocale(event.detail);
     updateText();
 });
 window.addEventListener('storage', event => {
