@@ -72,8 +72,11 @@ for (const select of document.querySelectorAll('#ui-language, #resource-language
         }
         if (event.key === 'Escape') { event.preventDefault(); close(true); }
     });
-    picker.addEventListener('focusout', event => {
-        if (!picker.contains(event.relatedTarget)) close();
+    // Safari can blur a button before its tap becomes a click, without
+    // assigning focus to the tapped option. Close on a confirmed outside
+    // focus instead so the option remains available for the click.
+    document.addEventListener('focusin', event => {
+        if (!picker.contains(event.target)) close();
     });
     document.addEventListener('pointerdown', event => {
         if (!picker.contains(event.target)) close();

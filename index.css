@@ -1508,3 +1508,7 @@ input[type=range]::-moz-range-thumb
 .language-picker-menu button[aria-selected="true"]::after { content: "✓"; }
 .language-picker-menu button:hover { background: #ffffff24; }
 .language-picker :focus-visible { outline: 2px solid #ffffffb3; outline-offset: 2px; }
+
+/* Shared controls appear only after their saved locale has been applied. */
+.back-home:not([data-ui-ready]) { visibility: hidden; }
+#ui-language { display: none; }

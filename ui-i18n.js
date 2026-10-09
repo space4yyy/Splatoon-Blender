@@ -1,4 +1,3 @@
-import './language-picker.js?v=20261010';
 
 // Translate only shared navigation and preview status, not page content.
 const messages = {
@@ -25,6 +24,7 @@ function updateText() {
         if (text) {
             element.textContent = text;
             element.lang = locale === 'CNzh' ? 'zh-CN' : 'en';
+            element.closest('.back-home')?.setAttribute('data-ui-ready', 'true');
         }
     });
     if (selector) {
@@ -54,3 +54,6 @@ window.addEventListener('storage', event => {
     }
 });
 updateText();
+
+// Initialize text and the native language value before constructing the menu.
+import('./language-picker.js?v=20261010-touch');
