@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splatoon Blender</title>
+    <style>html.restoring-home body { visibility: hidden; }</style>
+    <script>
+        try {
+            if (!location.hash && Number(sessionStorage.getItem('splatoon-home-scroll')) > 0) {
+                document.documentElement.classList.add('restoring-home');
+            }
+        } catch {}
+    </script>
     <link rel="stylesheet" href="index.css">
     <link rel="shortcut icon" href="Logo Low.png">
 
@@ -576,5 +584,6 @@
             <br>To make a render press <b style="color:#e87d0d">F12</b> or go to Render at the top and click on "Render Image". When your image is rendered press <b style="color:#e87d0d">Alt + S</b> to save it.
         </span>
     </div>
+    <script type="module" src="./home-scroll.js"></script>
 </body>
 </html>
