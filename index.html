@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="importmap">
+        {"imports":{"three":"./vendor/three/three.module.js"}}
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splatoon Blender</title>
     <style>html.restoring-home body { visibility: hidden; }</style>
@@ -58,7 +61,7 @@
         const characterDownload = document.getElementById("character-download");
         const discordJoin = document.getElementById("discord-join");
 
-        if (__DESKTOP_OFFLINE__) {
+        if (typeof __DESKTOP_OFFLINE__ !== "undefined" && __DESKTOP_OFFLINE__) {
             const showDownloadNotice = (message, isError = false) => {
                 const notice = document.createElement("div");
                 notice.textContent = message;

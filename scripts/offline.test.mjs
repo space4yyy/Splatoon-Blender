@@ -60,3 +60,32 @@ test('model resource names can be installed on Windows', () => {
     };
     check('resources');
 });
+
+test('resource translations initialize on a plain static host and in offline builds', async () => {
+    for (const offline of [undefined, false, true]) {
+        const requests = [];
+        const elements = new Map();
+        const element = id => {
+            if (!elements.has(id)) elements.set(id, {
+                value: '', textContent: '', setAttribute() {}, addEventListener() {},
+                querySelector: () => element('addon-link'), replaceChildren() {},
+            });
+            return elements.get(id);
+        };
+        const context = {
+            document: { documentElement: {}, getElementById: element, createTextNode: text => text },
+            navigator: { languages: ['en-US'] },
+            window: { localStorage: { getItem: () => 'USen', setItem() {} } },
+            fetch: async url => { requests.push(url); return { ok: true, json: async () => ({}) }; },
+            console,
+        };
+        if (offline !== undefined) context.__DESKTOP_OFFLINE__ = offline;
+        new Script(readFileSync('resources/i18n.js', 'utf8')).runInNewContext(context);
+        await Promise.resolve();
+        assert.equal(element('resource-language').value, 'USen');
+        assert.equal(context.document.documentElement.lang, 'en');
+        assert.equal(requests[0], offline
+            ? './resources/i18n/USen.json'
+            : 'https://leanny.github.io/splat3/data/language/USen.json');
+    }
+});

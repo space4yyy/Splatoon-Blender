@@ -10,7 +10,8 @@ const bundledLanguageSources = {
     JPja: "./resources/i18n/JPja.json",
 }
 
-const languageSources = __DESKTOP_OFFLINE__ ? bundledLanguageSources : remoteLanguageSources
+const offlineBuild = typeof __DESKTOP_OFFLINE__ !== "undefined" && __DESKTOP_OFFLINE__
+const languageSources = offlineBuild ? bundledLanguageSources : remoteLanguageSources
 
 const browserLocales = {
     USen: "en",
