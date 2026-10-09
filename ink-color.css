@@ -216,3 +216,7 @@ input[type="checkbox"]::before
 input[type="checkbox"]:checked::before {
     transform: scale(1);
 }
+
+.ink-colors-page .language-picker {
+    --language-color: var(--ink-color-b, #502eba);
+}

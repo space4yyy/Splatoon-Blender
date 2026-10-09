@@ -68,19 +68,6 @@
             cursor: pointer;
         }
 
-        #resource-language-control::after {
-            content: "";
-            position: absolute;
-            right: 18px;
-            top: 17px;
-            width: 7px;
-            height: 7px;
-            border-right: 2px solid #19151e;
-            border-bottom: 2px solid #19151e;
-            transform: rotate(45deg);
-            pointer-events: none;
-        }
-
         #preview-sidebar {
             box-sizing: border-box;
             height: 100%;
@@ -294,7 +281,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body style="background-color: #1f1f1f; scrollbar-color: #1f1F1F #3f3F3F;">
-    <a class="back-home" href="./index.html"><span aria-hidden="true">←</span> 返回首页</a>
+    <a class="back-home" href="./index.html"><span aria-hidden="true">←</span> <span data-ui-text="backHome">Back to Home</span></a>
     <div style="position: absolute; height: 100%; z-index: 10;">
         <div style="top:0; position: sticky; display: none;" id="full-screen">
             <canvas id="big-preview" style="width: 100vw; height: 100vh; margin: 0;"></canvas>
@@ -908,5 +895,6 @@
         <br><br><span id="import-addon-text">Download the <a href="./" style="color: #e87d0d;">Splatoon Model Importer</a> Blender add-on.</span>
     </div>
     <script type="module" src="./resources/i18n.js"></script>
+    <script type="module" src="./ui-i18n.js"></script>
 </body>
 </html>

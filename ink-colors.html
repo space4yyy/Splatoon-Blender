@@ -22,7 +22,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     </head>
     <body class="ink-colors-page">
-        <a class="back-home" href="./index.html"><span aria-hidden="true">←</span> 返回首页</a>
+        <a class="back-home" href="./index.html"><span aria-hidden="true">←</span> <span data-ui-text="backHome">Back to Home</span></a>
+        <select id="ui-language" class="ui-language" aria-label="Language / 语言">
+            <option value="USen">English</option>
+            <option value="CNzh">简体中文</option>
+        </select>
         <div id="gradient"></div>
         
             <div class="ink-heading">
@@ -718,8 +722,10 @@
 
             const syncNavigationColor = () => {
                 document.documentElement.style.setProperty('--ink-color-a', colorAInput.value);
+                document.documentElement.style.setProperty('--ink-color-b', colorBInput.value);
             };
             colorAInput.addEventListener('change', syncNavigationColor);
+            colorBInput.addEventListener('change', syncNavigationColor);
             syncNavigationColor();
 
             gradient.style.setProperty("--a", colorAInput.value+'50');
@@ -756,7 +762,8 @@
                 list.inert = true;
                 preview.setAttribute('aria-busy', 'true');
                 status.hidden = false;
-                status.textContent = 'Updating preview…';
+                status.dataset.uiText = 'updatingPreview';
+                status.textContent = window.partialUiI18n?.text('updatingPreview') || 'Updating preview…';
                 try {
                     // Render all layers off screen; publish only the complete, decoded set.
                     const attach = await Promise.all([
@@ -774,6 +781,7 @@
                     status.hidden = true;
                     console.debug('Ink preview switch: ' + Math.round(performance.now() - started) + ' ms');
                 } catch (error) {
+                    delete status.dataset.uiText;
                     status.textContent = 'Preview failed to load. Please try again.';
                     console.error(error);
                 } finally {
@@ -938,5 +946,6 @@
             }
             switchGame(0);
         </script>
-    </body>
+        <script type="module" src="./ui-i18n.js"></script>
+</body>
 </html>
