@@ -56,4 +56,4 @@ window.addEventListener('storage', event => {
 updateText();
 
 // Initialize text and the native language value before constructing the menu.
-import('./language-picker.js?v=20261010-touch');
+import('./language-picker.js?v=20261010-font');

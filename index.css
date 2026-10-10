@@ -1512,3 +1512,12 @@ input[type=range]::-moz-range-thumb
 /* Shared controls appear only after their saved locale has been applied. */
 .back-home:not([data-ui-ready]) { visibility: hidden; }
 #ui-language { display: none; }
+
+/* Language names use readable system UI fonts, independent of page typography. */
+.language-picker .language-picker-trigger,
+.language-picker .language-picker-menu button {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "PingFang SC", "Microsoft YaHei UI", sans-serif;
+    font-synthesis: none;
+}
+.language-picker .language-picker-trigger { font-weight: 600; }
+.language-picker .language-picker-trigger span { font-family: inherit; font-weight: inherit; }

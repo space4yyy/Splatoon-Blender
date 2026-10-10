@@ -1,3 +1,5 @@
+const languageTags = { USen: 'en', CNzh: 'zh-CN', JPja: 'ja' };
+
 // Keep the native select as the source of truth for the existing translation code.
 for (const select of document.querySelectorAll('#ui-language, #resource-language')) {
     const picker = document.createElement('div');
@@ -23,6 +25,7 @@ for (const select of document.querySelectorAll('#ui-language, #resource-language
         button.type = 'button';
         button.setAttribute('role', 'option');
         button.dataset.value = option.value;
+        button.lang = languageTags[option.value] || 'en';
         button.textContent = option.textContent;
         button.addEventListener('click', () => {
             select.value = option.value;
@@ -36,6 +39,7 @@ for (const select of document.querySelectorAll('#ui-language, #resource-language
 
     function refresh() {
         label.textContent = select.selectedOptions[0]?.textContent;
+        trigger.lang = languageTags[select.value] || 'en';
         const name = select.getAttribute('aria-label') || 'Language';
         trigger.setAttribute('aria-label', name + ': ' + label.textContent);
         menu.setAttribute('aria-label', name);
